@@ -51,6 +51,6 @@ Safari や Firefox では動作しませんので、ご注意ください。
 
 ## 📝 開発情報・ライセンス
 - **使用ライブラリ:** (GPLv3 License), [Tailwind CSS](https://tailwindcss.com/)
-- **デバイス仕様:** MaBeee for School (Scratch対応版) の専用UUIDを用いてGATT通信を行っています。
+- **デバイス仕様:** MaBeeeの専用UUIDを用いてGATT通信を行っています。
 - **開発:** iamsam174
 - **ライセンス:** MIT License (障害当事者やその支援者による個人利用、または、福祉事業所や特別支援教育の現場等での利用に限って無償でご利用いただけます。なお、改変・再配布はしないでください。)
