@@ -37,13 +37,13 @@
             </div>
         </header>
 
-        <!-- メインコンテンツ全体：画面内に収め、はみ出す場合は内部をスクロールさせる -->
+        <!-- メインコンテンツ全体 -->
         <div class="flex-1 min-h-0 flex flex-col md:flex-row gap-4 md:gap-6">
             
             <!-- 左側：設定エリア (はみ出す場合はここだけスクロール) -->
             <div class="w-full md:w-1/2 lg:w-7/12 flex-1 overflow-y-auto pr-2 md:pr-4 flex flex-col gap-5 md:gap-6 pb-2 custom-scrollbar">
                 
-                <!-- Bluetooth接続 -->
+                <!-- 1. Bluetooth接続 -->
                 <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
                     <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-3 md:mb-4">［機器接続（Bluetoothペアリング）］</h2>
                     <button id="btn-connect" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold py-4 md:py-5 lg:py-6 rounded-xl transition-all active:scale-95 shadow-lg text-xl md:text-2xl">
@@ -51,7 +51,23 @@
                     </button>
                 </div>
 
-                <!-- 外付けWebカメラ -->
+                <!-- 2. 動作モード選択 (カメラ設定より上に移動) -->
+                <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
+                    <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-4">［動作モードの選択］ <span class="text-sm md:text-base text-slate-400 font-normal block sm:inline mt-1 sm:mt-0">（キーボード［1］［2］［3］）</span></h2>
+                    <div class="grid grid-cols-1 gap-3 md:gap-4">
+                        <button id="mode-btn-1" class="mode-select-btn text-left border-2 border-sky-500 bg-sky-500/10 text-sky-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
+                            ① クリックまたはタップでタイマー実行
+                        </button>
+                        <button id="mode-btn-2" class="mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
+                            ② マウスオーバー（マウスポインタがボタンに触れた瞬間）でタイマー実行
+                        </button>
+                        <button id="mode-btn-3" class="mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
+                            ③ マウスポインタがボタン内にある間マビーON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. 外付けWebカメラ -->
                 <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700 flex flex-col gap-3">
                     <h2 class="text-lg md:text-xl font-bold text-slate-300">［対象物を映すための外付けWebカメラ（任意）］</h2>
                     <p class="text-sm md:text-base text-slate-400 mt-1">※「起動」を押した後、ブラウザの許可画面が出たら使いたいカメラを選択して「許可」を押してください。</p>
@@ -70,23 +86,16 @@
                     </div>
                 </div>
 
-                <!-- 動作モード選択 -->
-                <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
-                    <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-4">［動作モードの選択］ <span class="text-sm md:text-base text-slate-400 font-normal block sm:inline mt-1 sm:mt-0">（キーボード［1］［2］［3］）</span></h2>
-                    <div class="grid grid-cols-1 gap-3 md:gap-4">
-                        <button id="mode-btn-1" class="mode-select-btn text-left border-2 border-sky-500 bg-sky-500/10 text-sky-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
-                            ① クリックまたはタップでタイマー実行
-                        </button>
-                        <button id="mode-btn-2" class="mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
-                            ② マウスオーバー（マウスポインタがボタンに触れた瞬間）でタイマー実行
-                        </button>
-                        <button id="mode-btn-3" class="mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
-                            ③ マウスポインタがボタン内にある間マビーON
-                        </button>
+                <!-- 4. モバイル専用カメラプレビュー (スマホ等でのみスクロールエリアに表示) -->
+                <div class="md:hidden flex-none bg-slate-950 rounded-2xl border-2 border-slate-700 overflow-hidden relative flex items-center justify-center min-h-[160px]">
+                    <video id="webcam-out-mobile" class="absolute inset-0 w-full h-full object-cover" autoplay playsinline muted></video>
+                    <div id="placeholder-out-mobile" class="text-center text-slate-500 p-4 z-10 flex flex-col items-center">
+                        <span class="text-4xl block mb-2">📹</span>
+                        <p class="text-sm font-bold leading-relaxed">起動後、ここにカメラ映像が<br>表示されます</p>
                     </div>
                 </div>
 
-                <!-- タイマー秒数設定 -->
+                <!-- 5. タイマー秒数設定 -->
                 <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
                     <div class="flex justify-between items-center mb-3 md:mb-4">
                         <h2 class="text-lg md:text-xl font-bold text-slate-300">［タイマー秒数設定］ <span class="text-sm md:text-base text-slate-400 font-normal block sm:inline mt-1 sm:mt-0">（矢印キーで微調整）</span></h2>
@@ -95,7 +104,7 @@
                     <input id="slider-timer" type="range" min="1" max="180" step="1" value="5" class="w-full h-4 md:h-6 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-sky-500">
                 </div>
 
-                <!-- ボタンサイズ・音 -->
+                <!-- 6. ボタンサイズ・音 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
                         <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-3">［ボタンサイズ切替］</h2>
@@ -117,13 +126,15 @@
                 </div>
             </div>
 
-            <!-- 右側：固定エリア (スマホ時は常に最下部、PC時は右側に配置) -->
-            <div class="w-full md:w-1/2 lg:w-5/12 flex-none md:flex-1 flex flex-col gap-4 md:gap-6 border-t border-slate-700 md:border-t-0 pt-4 md:pt-0 min-h-0">
-                <div class="flex-1 bg-slate-950 rounded-2xl border-2 border-slate-700 overflow-hidden relative flex items-center justify-center min-h-[140px] md:min-h-0">
-                    <video id="webcam-out" class="absolute inset-0 w-full h-full object-cover" autoplay playsinline muted></video>
-                    <div id="placeholder-out" class="text-center text-slate-500 p-4 z-10 flex flex-col items-center">
-                        <span class="text-4xl md:text-6xl block mb-2 md:mb-4">📹</span>
-                        <p class="text-sm md:text-base font-bold leading-relaxed">起動後、ここにカメラ映像が表示されます<br>（ボタンの背景になります）</p>
+            <!-- 右側：固定エリア (スマホ時は太い白線で区切られ最下部に配置) -->
+            <div class="w-full md:w-1/2 lg:w-5/12 flex-none md:flex-1 flex flex-col gap-4 md:gap-6 border-t-4 border-white md:border-t-0 pt-4 md:pt-0 min-h-0">
+                
+                <!-- PC専用カメラプレビュー (PC等でのみ右側に大きく表示) -->
+                <div class="hidden md:flex flex-1 bg-slate-950 rounded-2xl border-2 border-slate-700 overflow-hidden relative items-center justify-center min-h-0">
+                    <video id="webcam-out-pc" class="absolute inset-0 w-full h-full object-cover" autoplay playsinline muted></video>
+                    <div id="placeholder-out-pc" class="text-center text-slate-500 p-4 z-10 flex flex-col items-center">
+                        <span class="text-6xl block mb-4">📹</span>
+                        <p class="text-base font-bold leading-relaxed">起動後、ここにカメラ映像が表示されます<br>（ボタンの背景になります）</p>
                     </div>
                 </div>
 
@@ -150,7 +161,8 @@
             ［1］キー：クリックまたはタップでタイマー実行、［2］キー：マウスオーバーでタイマー実行、［3］キー：マウスポインタがボタン内にある間マビーON
         </div>
 
-        <div class="absolute bottom-6 right-6 z-50">
+        <!-- ［設定に戻る］ボタンを右上に移動 -->
+        <div class="absolute top-6 right-6 z-50">
             <button id="btn-back" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold px-6 md:px-8 py-3 md:py-4 rounded-xl shadow-lg border border-slate-700 transition-all active:scale-95 text-base md:text-xl">
                 ↩ 設定に戻る
             </button>
@@ -234,9 +246,13 @@
             const btnCameraSwitch = document.getElementById('btn-out-camera-switch');
             const btnCameraStop = document.getElementById('btn-out-camera-stop');
             
-            const videoOut = document.getElementById('webcam-out');
+            // モバイル用とPC用で2つのプレビュー要素を取得
+            const videoOutMobile = document.getElementById('webcam-out-mobile');
+            const placeholderOutMobile = document.getElementById('placeholder-out-mobile');
+            const videoOutPc = document.getElementById('webcam-out-pc');
+            const placeholderOutPc = document.getElementById('placeholder-out-pc');
+            
             const videoRun = document.getElementById('run-webcam');
-            const placeholderOut = document.getElementById('placeholder-out');
             const mabeeeTarget = document.getElementById('mabeee-target');
             const dwellIndicator = document.getElementById('dwell-indicator');
             const targetText = document.getElementById('target-text');
@@ -367,10 +383,14 @@
                     const constraints = deviceId ? { video: { deviceId: { exact: deviceId } } } : { video: true };
                     streamOut = await navigator.mediaDevices.getUserMedia(constraints);
                     
-                    videoOut.srcObject = streamOut;
+                    // モバイルとPCの両方のビデオ要素にストリームを渡す
+                    if (videoOutMobile) videoOutMobile.srcObject = streamOut;
+                    if (videoOutPc) videoOutPc.srcObject = streamOut;
                     videoRun.srcObject = streamOut;
+                    
                     videoRun.classList.remove('hidden');
-                    placeholderOut.classList.add('hidden');
+                    if (placeholderOutMobile) placeholderOutMobile.classList.add('hidden');
+                    if (placeholderOutPc) placeholderOutPc.classList.add('hidden');
                     
                     btnCamera.classList.add('hidden');
                     btnCameraSwitch.classList.remove('hidden');
@@ -412,7 +432,6 @@
             }
 
             btnCamera.addEventListener('click', () => {
-                // 初回は deviceId 指定なしでブラウザに選択を任せる
                 startCamera(null);
             });
             
@@ -429,10 +448,13 @@
                     streamOut.getTracks().forEach(t => t.stop());
                     streamOut = null;
                 }
-                videoOut.srcObject = null;
+                if (videoOutMobile) videoOutMobile.srcObject = null;
+                if (videoOutPc) videoOutPc.srcObject = null;
                 videoRun.srcObject = null;
                 videoRun.classList.add('hidden');
-                placeholderOut.classList.remove('hidden');
+                
+                if (placeholderOutMobile) placeholderOutMobile.classList.remove('hidden');
+                if (placeholderOutPc) placeholderOutPc.classList.remove('hidden');
                 
                 btnCamera.classList.remove('hidden');
                 btnCameraSwitch.classList.add('hidden');
