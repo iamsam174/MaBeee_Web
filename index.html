@@ -18,89 +18,97 @@
             z-index: 0;
             border-radius: 20px;
         }
+        /* Windows等で表示されるスクロールバーを見やすくカスタム */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-[100dvh] select-none">
+<body class="bg-slate-900 text-slate-100 min-h-[100dvh] select-none flex flex-col relative">
 
-    <div id="screen-launcher" class="min-h-[100dvh] flex flex-col p-4 md:p-6">
-        <header class="mb-4 md:mb-6 flex justify-between items-center border-b border-slate-700 pb-4">
-            <h1 class="text-xl md:text-2xl font-bold tracking-wider text-sky-400 flex items-center gap-2">
+    <div id="screen-launcher" class="h-[100dvh] flex flex-col p-4 md:p-6 overflow-hidden">
+        <header class="flex-none mb-4 md:mb-6 flex justify-between items-center border-b border-slate-700 pb-4">
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-wider text-sky-400 flex items-center gap-2">
                 <span>🔋</span> MaBeee_Control
             </h1>
-            <div id="launcher-status" class="px-3 md:px-4 py-1.5 rounded-full text-sm font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span> 未接続
+            <div id="launcher-status" class="px-4 py-2 md:px-5 md:py-2.5 rounded-full text-sm md:text-base lg:text-lg font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-2">
+                <span class="w-3 h-3 md:w-4 md:h-4 rounded-full bg-rose-500 animate-pulse"></span> 未接続
             </div>
         </header>
 
-        <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-            <div class="md:col-span-7 bg-slate-800/50 p-4 md:p-6 rounded-2xl border border-slate-700 flex flex-col gap-4">
-
+        <!-- メインコンテンツ全体：画面内に収め、はみ出す場合は内部をスクロールさせる -->
+        <div class="flex-1 min-h-0 flex flex-col md:flex-row gap-4 md:gap-6">
+            
+            <!-- 左側：設定エリア (はみ出す場合はここだけスクロール) -->
+            <div class="w-full md:w-1/2 lg:w-7/12 flex-1 overflow-y-auto pr-2 md:pr-4 flex flex-col gap-5 md:gap-6 pb-2 custom-scrollbar">
+                
                 <!-- Bluetooth接続 -->
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                    <h2 class="text-sm font-bold text-slate-400 mb-3">［機器接続（Bluetoothペアリング）］</h2>
-                    <button id="btn-connect" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold py-3 rounded-lg transition-all active:scale-95 shadow-lg">
+                <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
+                    <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-3 md:mb-4">［機器接続（Bluetoothペアリング）］</h2>
+                    <button id="btn-connect" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold py-4 md:py-5 lg:py-6 rounded-xl transition-all active:scale-95 shadow-lg text-xl md:text-2xl">
                         MaBeeeに接続する
                     </button>
                 </div>
 
                 <!-- 外付けWebカメラ -->
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex flex-col gap-2">
-                    <h2 class="text-sm font-bold text-slate-400 mb-1">［対象物を映すための外付けWebカメラ（任意）］</h2>
-                    <p class="text-xs text-slate-500 mb-1">※「起動」を押した後、ブラウザの許可画面が出たら使いたいカメラを選択して「許可」を押してください。</p>
+                <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700 flex flex-col gap-3">
+                    <h2 class="text-lg md:text-xl font-bold text-slate-300">［対象物を映すための外付けWebカメラ（任意）］</h2>
+                    <p class="text-sm md:text-base text-slate-400 mt-1">※「起動」を押した後、ブラウザの許可画面が出たら使いたいカメラを選択して「許可」を押してください。</p>
                     
-                    <button id="btn-out-camera" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-3 rounded-lg transition-all text-sm">
+                    <button id="btn-out-camera" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-4 md:py-5 rounded-xl transition-all text-base md:text-lg lg:text-xl mt-3">
                         ▶️ カメラを起動する
                     </button>
                     
-                    <div class="flex gap-2">
-                        <button id="btn-out-camera-switch" class="hidden flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs">
+                    <div class="flex flex-col sm:flex-row gap-2 mt-3">
+                        <button id="btn-out-camera-switch" class="hidden flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-3 md:py-4 rounded-xl transition-all text-sm md:text-base">
                             🔄 別のカメラに切替
                         </button>
-                        <button id="btn-out-camera-stop" class="hidden flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 rounded-lg transition-all text-xs">
+                        <button id="btn-out-camera-stop" class="hidden flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-3 md:py-4 rounded-xl transition-all text-sm md:text-base">
                             ⏹️ カメラを停止
                         </button>
                     </div>
                 </div>
 
                 <!-- 動作モード選択 -->
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                    <h2 class="text-sm font-bold text-slate-400 mb-3">［動作モードの選択］ <span class="text-xs text-slate-500">（キーボード［1］［2］［3］）</span></h2>
-                    <div class="grid grid-cols-1 gap-2">
-                        <button id="mode-btn-1" class="mode-select-btn text-left border-2 border-sky-500 bg-sky-500/10 text-sky-400 font-bold py-2 px-4 rounded-xl text-sm transition-all">
+                <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
+                    <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-4">［動作モードの選択］ <span class="text-sm md:text-base text-slate-400 font-normal block sm:inline mt-1 sm:mt-0">（キーボード［1］［2］［3］）</span></h2>
+                    <div class="grid grid-cols-1 gap-3 md:gap-4">
+                        <button id="mode-btn-1" class="mode-select-btn text-left border-2 border-sky-500 bg-sky-500/10 text-sky-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
                             ① クリックまたはタップでタイマー実行
                         </button>
-                        <button id="mode-btn-2" class="mode-select-btn text-left border border-slate-700 bg-slate-800 text-slate-400 font-bold py-2 px-4 rounded-xl text-sm transition-all">
+                        <button id="mode-btn-2" class="mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
                             ② マウスオーバー（マウスポインタがボタンに触れた瞬間）でタイマー実行
                         </button>
-                        <button id="mode-btn-3" class="mode-select-btn text-left border border-slate-700 bg-slate-800 text-slate-400 font-bold py-2 px-4 rounded-xl text-sm transition-all">
+                        <button id="mode-btn-3" class="mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all">
                             ③ マウスポインタがボタン内にある間マビーON
                         </button>
                     </div>
                 </div>
 
                 <!-- タイマー秒数設定 -->
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                    <div class="flex justify-between items-center mb-1">
-                        <h2 class="text-sm font-bold text-slate-400">［タイマー秒数設定］ <span class="text-xs text-slate-500">（矢印キーで1秒ずつ微調整）</span></h2>
-                        <span id="timer-val" class="text-xl font-mono font-bold text-amber-400">5 秒</span>
+                <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
+                    <div class="flex justify-between items-center mb-3 md:mb-4">
+                        <h2 class="text-lg md:text-xl font-bold text-slate-300">［タイマー秒数設定］ <span class="text-sm md:text-base text-slate-400 font-normal block sm:inline mt-1 sm:mt-0">（矢印キーで微調整）</span></h2>
+                        <span id="timer-val" class="text-3xl md:text-4xl font-mono font-bold text-amber-400 whitespace-nowrap ml-2 flex-shrink-0">5 秒</span>
                     </div>
-                    <input id="slider-timer" type="range" min="1" max="180" step="1" value="5" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-500">
+                    <input id="slider-timer" type="range" min="1" max="180" step="1" value="5" class="w-full h-4 md:h-6 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-sky-500">
                 </div>
 
                 <!-- ボタンサイズ・音 -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                        <h2 class="text-sm font-bold text-slate-400 mb-1">［ボタンサイズ切替］</h2>
-                        <select id="select-size" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
+                        <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-3">［ボタンサイズ切替］</h2>
+                        <select id="select-size" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 md:p-4 text-slate-200 focus:outline-none text-base md:text-lg font-bold cursor-pointer min-h-[48px] md:min-h-[60px]">
                             <option value="size-xl" selected>特大（画面の約80%）</option>
                             <option value="size-l">大</option>
                             <option value="size-m">中</option>
                             <option value="size-s">小</option>
                         </select>
                     </div>
-                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                        <h2 class="text-sm font-bold text-slate-400 mb-1">［音の切替］</h2>
-                        <select id="select-sound" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-200 focus:outline-none text-sm">
+                    <div class="bg-slate-800 p-4 md:p-6 rounded-2xl border border-slate-700">
+                        <h2 class="text-lg md:text-xl font-bold text-slate-300 mb-3">［音の切替］</h2>
+                        <select id="select-sound" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 md:p-4 text-slate-200 focus:outline-none text-base md:text-lg font-bold cursor-pointer min-h-[48px] md:min-h-[60px]">
                             <option value="sound-a" selected>電子音（ピコーン）</option>
                             <option value="sound-b">ファンファーレ</option>
                             <option value="sound-none">音なし</option>
@@ -109,17 +117,17 @@
                 </div>
             </div>
 
-            <!-- 右列: カメラプレビュー＋スタート -->
-            <div class="md:col-span-5 flex flex-col gap-4">
-                <div class="flex-1 bg-slate-950 rounded-xl border border-slate-700 overflow-hidden relative flex items-center justify-center min-h-[140px]">
+            <!-- 右側：固定エリア (スマホ時は常に最下部、PC時は右側に配置) -->
+            <div class="w-full md:w-1/2 lg:w-5/12 flex-none md:flex-1 flex flex-col gap-4 md:gap-6 border-t border-slate-700 md:border-t-0 pt-4 md:pt-0 min-h-0">
+                <div class="flex-1 bg-slate-950 rounded-2xl border-2 border-slate-700 overflow-hidden relative flex items-center justify-center min-h-[140px] md:min-h-0">
                     <video id="webcam-out" class="absolute inset-0 w-full h-full object-cover" autoplay playsinline muted></video>
-                    <div id="placeholder-out" class="text-center text-slate-500 p-2 z-10">
-                        <span class="text-2xl block mb-1">📹</span>
-                        <p class="text-xs">起動後、ここにカメラ映像が表示されます<br>（ボタンの背景になります）</p>
+                    <div id="placeholder-out" class="text-center text-slate-500 p-4 z-10 flex flex-col items-center">
+                        <span class="text-4xl md:text-6xl block mb-2 md:mb-4">📹</span>
+                        <p class="text-sm md:text-base font-bold leading-relaxed">起動後、ここにカメラ映像が表示されます<br>（ボタンの背景になります）</p>
                     </div>
                 </div>
 
-                <button id="btn-start" class="w-full bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-400 hover:to-blue-400 text-slate-950 text-xl font-black py-4 rounded-xl transition-all shadow-xl active:scale-[0.98]">
+                <button id="btn-start" class="flex-none w-full bg-gradient-to-r from-sky-500 to-blue-500 hover:from-sky-400 hover:to-blue-400 text-slate-950 text-2xl md:text-3xl lg:text-4xl font-black py-5 md:py-6 lg:py-8 rounded-2xl transition-all shadow-xl active:scale-[0.98]">
                     🚀 スタート（実行画面へ）
                 </button>
             </div>
@@ -127,23 +135,23 @@
     </div>
 
 
-    <div id="screen-run" class="fixed inset-0 min-h-[100dvh] hidden bg-slate-950 transition-colors duration-300">
+    <div id="screen-run" class="fixed inset-0 min-h-[100dvh] hidden bg-slate-950 transition-colors duration-300 z-50">
 
         <div id="mabeee-target" class="draggable absolute bg-slate-800 border-4 border-slate-700 hover:border-sky-400 rounded-3xl flex flex-col justify-center items-center p-6 cursor-move shadow-2xl transition-colors duration-150 select-none overflow-hidden">
             <video id="run-webcam" class="target-video hidden" autoplay playsinline muted></video>
 
             <div id="dwell-indicator" class="absolute inset-x-0 bottom-0 h-0 bg-sky-500/40 transition-all duration-0 pointer-events-none"></div>
 
-            <span id="target-icon" class="pointer-events-none text-6xl mb-4 z-10 drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">🤖</span>
-            <span id="target-text" class="pointer-events-none text-3xl font-black tracking-widest text-slate-200 z-10 drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">マビーON</span>
+            <span id="target-icon" class="pointer-events-none text-6xl md:text-8xl mb-4 md:mb-8 z-10 drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">🤖</span>
+            <span id="target-text" class="pointer-events-none text-3xl md:text-5xl lg:text-6xl font-black tracking-widest text-slate-200 z-10 drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">マビーON</span>
         </div>
 
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 text-center text-xs text-slate-400 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 pointer-events-none shadow-lg whitespace-nowrap">
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 text-center text-xs md:text-sm text-slate-400 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 pointer-events-none shadow-lg whitespace-nowrap">
             ［1］キー：クリックまたはタップでタイマー実行、［2］キー：マウスオーバーでタイマー実行、［3］キー：マウスポインタがボタン内にある間マビーON
         </div>
 
         <div class="absolute bottom-6 right-6 z-50">
-            <button id="btn-back" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold px-6 py-3 rounded-xl shadow-lg border border-slate-700 transition-all active:scale-95 text-base">
+            <button id="btn-back" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold px-6 md:px-8 py-3 md:py-4 rounded-xl shadow-lg border border-slate-700 transition-all active:scale-95 text-base md:text-xl">
                 ↩ 設定に戻る
             </button>
         </div>
@@ -246,9 +254,9 @@
                 appMode = modeNum;
                 document.querySelectorAll('.mode-select-btn').forEach((btn, idx) => {
                     if (idx + 1 === modeNum) {
-                        btn.className = "mode-select-btn text-left border-2 border-sky-500 bg-sky-500/10 text-sky-400 font-bold py-2 px-4 rounded-xl text-sm transition-all";
+                        btn.className = "mode-select-btn text-left border-2 border-sky-500 bg-sky-500/10 text-sky-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all";
                     } else {
-                        btn.className = "mode-select-btn text-left border border-slate-700 bg-slate-800 text-slate-400 font-bold py-2 px-4 rounded-xl text-sm transition-all";
+                        btn.className = "mode-select-btn text-left border border-slate-700 bg-slate-900 text-slate-400 font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl text-base md:text-lg transition-all";
                     }
                 });
 
@@ -290,8 +298,8 @@
                         });
 
                         const statusEl = document.getElementById('launcher-status');
-                        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 接続中...`;
-                        statusEl.className = "px-4 py-1.5 rounded-full text-sm font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-2";
+                        statusEl.innerHTML = `<span class="w-3 h-3 md:w-4 md:h-4 rounded-full bg-amber-500 animate-pulse"></span> 接続中...`;
+                        statusEl.className = "px-4 py-2 md:px-5 md:py-2.5 rounded-full text-sm md:text-base lg:text-lg font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-2";
 
                         const server = await device.gatt.connect();
 
@@ -327,23 +335,23 @@
                             console.warn("初期化書き込みスキップ:", e);
                         }
 
-                        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> 接続完了`;
-                        statusEl.className = "px-4 py-1.5 rounded-full text-sm font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2";
+                        statusEl.innerHTML = `<span class="w-3 h-3 md:w-4 md:h-4 rounded-full bg-emerald-500"></span> 接続完了`;
+                        statusEl.className = "px-4 py-2 md:px-5 md:py-2.5 rounded-full text-sm md:text-base lg:text-lg font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2";
 
                         btnConnect.textContent = "接続完了";
-                        btnConnect.className = "w-full bg-emerald-600 text-slate-100 font-bold py-3 rounded-lg transition-all shadow-lg";
+                        btnConnect.className = "w-full bg-emerald-600 text-slate-100 font-bold py-4 md:py-5 lg:py-6 rounded-xl transition-all shadow-lg text-xl md:text-2xl";
 
                     } catch (err) {
                         console.error("Bluetooth接続エラー詳細:", err);
                         btnConnect.textContent = "MaBeeeに接続する";
-                        btnConnect.className = "w-full bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold py-3 rounded-lg transition-all active:scale-95 shadow-lg";
+                        btnConnect.className = "w-full bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold py-4 md:py-5 lg:py-6 rounded-xl transition-all active:scale-95 shadow-lg text-xl md:text-2xl";
 
                         if (err.name !== 'NotFoundError') {
                             alert("接続に失敗しました。\n詳細: " + err.message);
                         }
                         const statusEl = document.getElementById('launcher-status');
-                        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-500"></span> 未接続`;
-                        statusEl.className = "px-4 py-1.5 rounded-full text-sm font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-2";
+                        statusEl.innerHTML = `<span class="w-3 h-3 md:w-4 md:h-4 rounded-full bg-rose-500"></span> 未接続`;
+                        statusEl.className = "px-4 py-2 md:px-5 md:py-2.5 rounded-full text-sm md:text-base lg:text-lg font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-2";
                     }
                 });
             }
